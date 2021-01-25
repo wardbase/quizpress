@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<ruleset name="Coding Standards for WP React Plugins">
+	<description>Copied from the sniffs for WordPress plugins, with minor modifications for Gutenberg</description>
+
+	<rule ref="PHPCompatibility"/>
+	<config name="testVersion" value="5.6-"/>
+
+	<rule ref="WordPress-Core"/>
+	<rule ref="WordPress-Docs"/>
+	<rule ref="WordPress.WP.I18n"/>
+	<config name="text_domain" value="gutenberg,default"/>
+
+	<rule ref="VariableAnalysis.CodeAnalysis.VariableAnalysis">
+		<properties>
+			<property name="allowUnusedParametersBeforeUsed" value="true"/>
+		</properties>
+	</rule>
+	<rule ref="WordPress.CodeAnalysis.EmptyStatement"/>
+
+	<rule ref="PEAR.Functions.FunctionCallSignature">
+		<properties>
+			<property name="allowMultipleArguments" value="false"/>
+		</properties>
+	</rule>
+
+
+	<arg value="ps"/>
+	<arg name="extensions" value="php"/>
+
+	<file>./plugin.php</file>
+	<file>./lib</file>
+	<file>./packages</file>
+	<file>./phpunit</file>
+
+	<!-- These special comments are markers for the build process -->
+	<rule ref="Squiz.Commenting.InlineComment.WrongStyle">
+		<exclude-pattern>plugin.php</exclude-pattern>
+	</rule>
+
+	<!-- Do not require docblocks for unit tests -->
+	<rule ref="Squiz.Commenting.FunctionComment.Missing">
+		<exclude-pattern>phpunit/*</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.FileComment.Missing">
+		<exclude-pattern>phpunit/*</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.ClassComment.Missing">
+		<exclude-pattern>phpunit/*</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.ClassComment.SpacingAfter">
+		<exclude-pattern>phpunit/*</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.FunctionComment.MissingParamTag">
+		<exclude-pattern>phpunit/*</exclude-pattern>
+	</rule>
+	<rule ref="Generic.Commenting.DocComment.Empty">
+    	<exclude-pattern>phpunit/*</exclude-pattern>
+    </rule>
+	<rule ref="Generic.Commenting.DocComment.MissingShort">
+		<exclude-pattern>phpunit/*</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.VariableComment.Missing">
+		<exclude-pattern>phpunit/*</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.FunctionCommentThrowTag.Missing">
+		<exclude-pattern>phpunit/*</exclude-pattern>
+	</rule>
+</ruleset>

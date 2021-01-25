@@ -1,0 +1,165 @@
+name: Test
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+    # Checkout files
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    # node_modules
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      id: npm-cache
+      with:
+        path: |
+          node_modules
+        key: ${{ runner.os }}-${{ matrix.node-version }}-npm-${{ hashFiles('package-lock.json') }}
+    - run: npm i
+      if: steps.npm-cache.outputs.cache-hit != 'true'
+
+    - name: Start wp-env
+      run: npm run wp-env start
+
+    # vendor
+    - name: Restore vendor
+      uses: actions/cache@v2
+      id: vendor-cache
+      with:
+        path: vendor
+        key: ${{ runner.os }}-${{ matrix.node-version }}-composer-${{ hashFiles('composer.lock') }}
+    - run: npm run install:composer
+      if: steps.vendor-cache.outputs.cache-hit != 'true'
+
+    # build assets
+    - run: npm run build
+    - name: Cache built assets
+      uses: actions/cache@v2
+      with:
+        path: |
+          build
+        key: ${{ runner.os }}-${{ matrix.node-version }}-${{ github.sha }}
+
+  e2e:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    needs: build
+    steps:
+    - uses: actions/checkout@v2
+    - name: Restore dependencies
+      uses: actions/cache@v2
+      id: npm-cache
+      with:
+        path: |
+          node_modules
+        key: ${{ runner.os }}-${{ matrix.node-version }}-npm-${{ hashFiles('package-lock.json') }}
+    - name: Restore vendor
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-${{ matrix.node-version }}-composer-${{ hashFiles('composer.lock') }}
+    - name: Restore built assets
+      uses: actions/cache@v2
+      with:
+        path: |
+          build
+        key: ${{ runner.os }}-${{ matrix.node-version }}-${{ github.sha }}
+    - name: Start server
+      run: npx wp-env start
+    - run: npm run test-e2e
+
+  lint:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    needs: build
+    steps:
+    - uses: actions/checkout@v2
+    - name: Restore dependencies
+      uses: actions/cache@v2
+      id: npm-cache
+      with:
+        path: |
+          node_modules
+        key: ${{ runner.os }}-${{ matrix.node-version }}-npm-${{ hashFiles('package-lock.json') }}
+    - name: Restore vendor
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-${{ matrix.node-version }}-composer-${{ hashFiles('composer.lock') }}
+    - run: npm run lint-js
+      if: ${{ always() }}
+    - run: npm run lint-css
+      if: ${{ always() }}
+    - run: npm run check-type
+      if: ${{ always() }}
+    - run: npm run wp-env start
+      if: ${{ always() }}
+    - run: npm run lint-php
+      if: ${{ always() }}
+
+  unit-js:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    needs: build
+    steps:
+    - uses: actions/checkout@v2
+    - name: Restore dependencies
+      uses: actions/cache@v2
+      id: npm-cache
+      with:
+        path: |
+          node_modules
+        key: ${{ runner.os }}-${{ matrix.node-version }}-npm-${{ hashFiles('package-lock.json') }}
+    - name: Restore vendor
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-${{ matrix.node-version }}-composer-${{ hashFiles('composer.lock') }}
+    - run: npm run test-unit
+
+  unit-php:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    needs: build
+    steps:
+    - uses: actions/checkout@v2
+    - name: Restore dependencies
+      uses: actions/cache@v2
+      id: npm-cache
+      with:
+        path: |
+          node_modules
+        key: ${{ runner.os }}-${{ matrix.node-version }}-npm-${{ hashFiles('package-lock.json') }}
+    - name: Restore vendor
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-${{ matrix.node-version }}-composer-${{ hashFiles('composer.lock') }}
+    - run: npm run wp-env start
+    - run: npm run test-unit-php
