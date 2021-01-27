@@ -17,7 +17,7 @@ add_action( 'rest_api_init', 'wpqp_random_quiz_rest_api' );
 function wpqp_get_random_quiz() {
     global $wpdb;
 
-    // Extract published questions.
+	// Extract published questions.
     $sql_str = $wpdb->prepare(
         "SELECT m.meta_value FROM {$wpdb->prefix}postmeta AS m
         INNER JOIN
@@ -27,10 +27,11 @@ function wpqp_get_random_quiz() {
         (SELECT id FROM {$wpdb->prefix}learndash_pro_quiz_question AS question WHERE question.answer_type IN ('single', 'multiple', 'free_answer', 'sort_answer', 'matrix_sort_answer')) AS q
             ON q.id = m.meta_value
         WHERE m.meta_key='question_pro_id'
-        LIMIT 20"
+        LIMIT 20",
+        array() // add dummy array to avoid Notice in wp-db.php
     );
 
-    $ids = $wpdb->get_results($sql_str);
+	$ids = $wpdb->get_results($sql_str);
     $ids = array_map(function($id) { return $id->meta_value; }, $ids);
 
     if (count($ids) > 0) {
@@ -74,10 +75,10 @@ function wpqp_get_random_quiz() {
         }
 
         return $questions;
-    } else {
-        // Send empty array when there is no published questions.
-        return array();
     }
+
+	// Send empty array when there is no published questions.
+	return array();
 }
 
 function wpqp_check_answers(WP_REST_Request $request) {
