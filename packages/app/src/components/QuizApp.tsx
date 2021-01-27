@@ -5,12 +5,14 @@ import { StartPage } from './StartPage';
 import { QuizData, QuizResult, UserAnswers } from './questions';
 import { Quiz } from './Quiz';
 import { ResultPage } from './ResultPage';
+import { NoQuestionPage } from './pages/NoQuestionPage';
 // import '../wp-api.d.ts';
 
 type AppState =
 	| 'Start'
 	| 'LoadingQuiz'
 	| 'Quiz'
+	| 'NoQuestion'
 	| 'Submitting'
 	| 'ShowResult'
 	| 'Error';
@@ -21,6 +23,9 @@ type Action =
 	| {
 			type: 'QUIZ_LOAD_DONE';
 			quiz: QuizData;
+	  }
+	| {
+			type: 'QUIZ_NO_QUESTION';
 	  }
 	| {
 			type: 'QUIZ_ERROR';
@@ -56,6 +61,11 @@ function reducer( state: State, action: Action ): State {
 				...state,
 				state: 'Quiz',
 				quiz: action.quiz,
+			};
+		case 'QUIZ_NO_QUESTION':
+			return {
+				...state,
+				state: 'NoQuestion',
 			};
 		case 'SEND_ANSWERS':
 			return {
@@ -93,10 +103,16 @@ export function QuizApp(): JSX.Element {
 				.then( ( res ) => res.json() )
 				.then(
 					( res ) => {
-						dispatch( {
-							type: 'QUIZ_LOAD_DONE',
-							quiz: res,
-						} );
+						if ( res.length > 0 ) {
+							dispatch( {
+								type: 'QUIZ_LOAD_DONE',
+								quiz: res,
+							} );
+						} else {
+							dispatch( {
+								type: 'QUIZ_NO_QUESTION',
+							} );
+						}
 					},
 					( err ) => {
 						dispatch( {
@@ -146,6 +162,8 @@ export function QuizApp(): JSX.Element {
 			return <div>Loading...</div>;
 		case 'Quiz':
 			return <Quiz quiz={ quiz } sendAnswers={ sendAnswers } />;
+		case 'NoQuestion':
+			return <NoQuestionPage />;
 		case 'Submitting':
 			return <div>Submitting answers...</div>;
 		case 'ShowResult':
