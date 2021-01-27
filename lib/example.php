@@ -11,6 +11,6 @@
  * @param number $a first number.
  * @param number $b second number.
  */
-function wp_react_plugin_add( $a, $b ) {
+function wpqp_plugin_add( $a, $b ) {
 	return $a + $b;
 }

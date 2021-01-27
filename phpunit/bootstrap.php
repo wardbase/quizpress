@@ -39,7 +39,7 @@ require_once $_tests_dir . '/includes/functions.php';
 
 // Do not try to load JavaScript files from an external URL - this takes a
 // while.
-define( 'WP_REACT_PLUGIN_LOAD_VENDOR_SCRIPTS', false );
+define( 'WP_QUIZ_POWER_PACKLOAD_VENDOR_SCRIPTS', false );
 
 /**
  * Manually load the plugin being tested.
