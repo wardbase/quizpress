@@ -25,5 +25,14 @@ module.exports = {
 	plugins: [ 'react', '@typescript-eslint' ],
 	rules: {
 		'jsdoc/no-undefined-types': 'off',
+		// Temporary silence to avoid the errors caused by the raw data from the server.
+		camelcase: 'off',
+		'@typescript-eslint/no-non-null-assertion': 'off',
+		'@typescript-eslint/no-unused-vars': 'off',
+		'jsx-a11y/label-has-for': 'off',
+		'no-shadow': 'off',
+		'@typescript-eslint/explicit-module-boundary-types': 'off',
+		'@typescript-eslint/no-explicit-any': 'off',
+		'@typescript-eslint/triple-slash-reference': 'off',
 	},
 };

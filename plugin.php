@@ -19,7 +19,7 @@ defined( 'WP_REACT_PLUGIN_DEVELOPMENT_MODE' ) or define( 'WP_REACT_PLUGIN_DEVELO
 define( 'WP_REACT_PLUGIN_PATH', dirname( __FILE__ ) );
 define( 'WP_REACT_PLUGIN_URL', plugins_url( '', __FILE__ ) );
 
-require WP_REACT_PLUGIN_PATH . '/lib/example.php';
+require WP_REACT_PLUGIN_PATH . '/lib/load.php';
 
 add_shortcode( 'React', 'wp_react_plugin_react' );
 
@@ -28,8 +28,9 @@ add_shortcode( 'React', 'wp_react_plugin_react' );
  */
 function wp_react_plugin_react() {
 	wp_enqueue_script( 'wp-react-plugin-script' );
+	wp_enqueue_script( 'wp-api' );
 
-	return '<h1>' . wp_react_plugin_add( 1, 3 ) . '</h1>' . '<div id="wp-react-root"></div>';
+	return '<div id="wp-react-root"></div>';
 }
 
 add_action( 'wp_enqueue_scripts', 'wp_react_plugin_load_react' );
