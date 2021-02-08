@@ -1,3 +1,9 @@
 <?php
+/**
+ * Load APIs.
+ *
+ * @package ld-quiz-power-pack
+ */
 
-require dirname(__FILE__) . '/random-quiz.php';
+// Files to include.
+require_once dirname( __FILE__ ) . '/random-quiz.php';

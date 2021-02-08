@@ -98,7 +98,7 @@ export function QuizApp(): JSX.Element {
 	useEffect( () => {
 		if ( state === 'LoadingQuiz' ) {
 			fetch(
-				`${ window.wpApiSettings.root }wp-quiz-power-pack/v1/random-quiz`
+				`${ window.wpApiSettings.root }ld-quiz-power-pack/v1/random-quiz`
 			)
 				.then( ( res ) => res.json() )
 				.then(
@@ -123,7 +123,7 @@ export function QuizApp(): JSX.Element {
 				);
 		} else if ( state === 'Submitting' ) {
 			fetch(
-				`${ window.wpApiSettings.root }wp-quiz-power-pack/v1/random-quiz/answers`,
+				`${ window.wpApiSettings.root }ld-quiz-power-pack/v1/random-quiz/answers`,
 				{
 					method: 'post',
 					body: JSON.stringify( answers ),

@@ -1,15 +1,15 @@
 <?php
 /**
- * Plugin Name: WordPress React Plugin Boilerplate
+ * Plugin Name: LearnDash Quiz Power Pack
  * Plugin URI: https://github.com/sainthkh/wp-react-plugin-boilerplate
- * Description: The good starting point for WordPress and React fans.
- * Requires at least: 5.3
+ * Description: The powerup for learndash quiz system.
+ * Requires at least: 5.4
  * Requires PHP: 5.6
  * Version: 1.0.0
  * Author: sainthkh
- * Text Domain: wp-react-plugin
+ * Text Domain: ld-quiz-power-pack
  *
- * @package wp-react-plugin
+ * @package ld-quiz-power-pack
  */
 
 ### BEGIN AUTO-GENERATED DEFINES
