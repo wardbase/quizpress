@@ -28,11 +28,12 @@ jobs:
     - run: npm i
       if: steps.npm-cache.outputs.cache-hit != 'true'
 
+    - run: chmod -R 777 ./ # Fix write permission problem.
     - name: Start wp-env
       run: npm run wp-env start
 
     # vendor
-    - name: Restore vendor
+    - name: Cache vendor
       uses: actions/cache@v2
       id: vendor-cache
       with:
@@ -40,6 +41,21 @@ jobs:
         key: ${{ runner.os }}-${{ matrix.node-version }}-composer-${{ hashFiles('composer.lock') }}
     - run: npm run install:composer
       if: steps.vendor-cache.outputs.cache-hit != 'true'
+
+    # WordPress Dependencies
+    - name: Cache WordPress dependencies
+      uses: actions/cache@v2
+      id: wp-deps-cache
+      with:
+        path: |
+          wp-deps
+          .wp-env.override.json
+        key: ${{ runner.os }}-${{ matrix.node-version }}-wpdeps-${{ hashFiles('wp-deps.json') }}
+    - name: Install WordPress dependencies
+      run: npm run install:wp-deps:ci -- $WP_REACT_GITHUB_SECRET
+      env:
+        WP_REACT_GITHUB_SECRET: ${{ secrets.WP_REACT_GITHUB_SECRET }}
+      if: steps.wp-deps-cache.outputs.cache-hit != 'true'
 
     # build assets
     - run: npm run build
@@ -72,6 +88,13 @@ jobs:
       with:
         path: vendor
         key: ${{ runner.os }}-${{ matrix.node-version }}-composer-${{ hashFiles('composer.lock') }}
+    - name: Restore WordPress dependencies
+      uses: actions/cache@v2
+      with:
+        path: |
+          wp-deps
+          .wp-env.override.json
+        key: ${{ runner.os }}-${{ matrix.node-version }}-wpdeps-${{ hashFiles('wp-deps.json') }}
     - name: Restore built assets
       uses: actions/cache@v2
       with:
@@ -81,6 +104,12 @@ jobs:
     - name: Start server
       run: npx wp-env start
     - run: npm run test-e2e
+    - name: Save Screenshots
+      uses: actions/upload-artifact@v2
+      with:
+        name: Failure Screenshots
+        path: test-report
+      if: ${{ failure() }}
 
   lint:
     runs-on: ubuntu-latest
@@ -161,5 +190,7 @@ jobs:
       with:
         path: vendor
         key: ${{ runner.os }}-${{ matrix.node-version }}-composer-${{ hashFiles('composer.lock') }}
+    - run: chmod -R 777 ./ # Fix write permission problem.
     - run: npm run wp-env start
+    - run: npm run wp-env run tests-cli "ls wp-content/plugins/wp-react-plugin-boilerplate/test/e2e -l"
     - run: npm run test-unit-php

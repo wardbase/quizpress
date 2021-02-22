@@ -2,10 +2,12 @@
 
 const fs = require( 'fs' );
 const archiver = require( 'archiver' );
+const package = require( '../package.json' );
 
 const output = fs.createWriteStream( 'plugin.zip' );
 const archive = archiver( 'zip' );
 
+// 1. Set up archiver.
 output.on( 'close', function () {
 	// eslint-disable-next-line no-console
 	console.log( archive.pointer() + ' total bytes' );
@@ -21,12 +23,19 @@ archive.on( 'error', function ( err ) {
 
 archive.pipe( output );
 
-const files = [ 'plugin.php' ];
+// 2. Replace content.
+let content = fs.readFileSync( 'plugin.php' ).toString();
 
-files.forEach( ( file ) => {
-	archive.file( file, { name: file } );
-} );
+content = content.replace(
+	/### BEGIN AUTO-GENERATED DEFINES[\s\S]*### END AUTO-GENERATED DEFINES/m,
+	`define( 'WP_REACT_PLUGIN_VERSION', '${ package.version }' );`
+);
 
+fs.writeFileSync( 'plugin.temp.php', content );
+
+archive.file( 'plugin.temp.php', { name: 'plugin.php' } );
+
+// 3. Archive folders
 const folders = [ 'lib', 'build' ];
 
 folders.forEach( ( folder ) => {
@@ -34,4 +43,8 @@ folders.forEach( ( folder ) => {
 	archive.directory( folder, folder );
 } );
 
-archive.finalize();
+// 4. Create zip file.
+archive.finalize().then( () => {
+	// 5. Remove generated file.
+	fs.unlinkSync( 'plugin.temp.php' );
+} );

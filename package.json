@@ -1,5 +1,5 @@
 {
-  "name": "wp-react-plugin-boilerplate",
+  "name": "learndash-quiz-power-pack",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,8 +8,12 @@
     "check-type": "tsc --noEmit",
     "dev": "webpack --env development --mode=development --watch",
     "dev:open": "webpack-cli serve --mode=development --env development --open --hot",
+		"exe-sql": "wp-env run cli php wp-content/plugins/learndash-quiz-power-pack/bin/execute-sql.php",
     "format-php": "wp-env run composer run-script format",
+    "gen-sql": "wp-env run cli php wp-content/plugins/learndash-quiz-power-pack/bin/generate-sql.php",
     "install:composer": "wp-env run composer install",
+    "install:wp-deps": "wp-env run cli php wp-content/plugins/learndash-quiz-power-pack/bin/install-deps/main.php",
+    "install:wp-deps:ci": "wp-env run cli bash wp-content/plugins/learndash-quiz-power-pack/bin/install-deps/exe.sh",
     "lint-css": "wp-scripts lint-style",
     "lint-css:fix": "npm run lint-css -- --fix",
     "lint-js": "wp-scripts lint-js",
@@ -19,21 +23,21 @@
     "test-e2e": "wp-scripts test-e2e --config packages/e2e-tests/jest.config.js",
     "test-e2e:i": "npm run test-e2e -- --puppeteer-interactive",
     "test-unit": "wp-scripts test-unit-js --config test/unit/jest.config.js",
-    "test-unit-php": "wp-env run phpunit \"phpunit -c /var/www/html/wp-content/plugins/wp-react-plugin-boilerplate/phpunit.xml.dist --verbose\"",
+    "test-unit-php": "wp-env run phpunit \"phpunit -c /var/www/html/wp-content/plugins/learndash-quiz-power-pack/phpunit.xml.dist --verbose\"",
     "wp-env": "wp-env",
     "zip": "node bin/zip-plugin.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sainthkh/wp-react-plugin-boilerplate.git"
+    "url": "git+https://github.com/sainthkh/learndash-quiz-power-pack.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sainthkh/wp-react-plugin-boilerplate/issues"
+    "url": "https://github.com/sainthkh/learndash-quiz-power-pack/issues"
   },
-  "homepage": "https://github.com/sainthkh/wp-react-plugin-boilerplate#readme",
+  "homepage": "https://github.com/sainthkh/learndash-quiz-power-pack#readme",
   "dependencies": {},
   "devDependencies": {
     "@svgr/webpack": "5.5.0",

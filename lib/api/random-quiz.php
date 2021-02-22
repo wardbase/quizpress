@@ -267,7 +267,7 @@ function wpqp_get_questions( array $ids ) {
 				$ids_str,
 				$ids_str,
 			)
-		);
+		)
 	);
 	$questions = maybe_unserialize( $questions );
 

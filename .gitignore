@@ -23,7 +23,6 @@ vendor/
 
 # ignore log files and databases
 *.log
-*.sql
 *.sqlite
 
 # ignore generated files
@@ -31,17 +30,17 @@ build/
 /theme/asset/
 /theme/style.css
 plugin.zip
+plugin.temp.php
+/test-report
 
 # ignore debug-related plugins
 .wp-env.override.json
-debug_plugins/
 
 # ignore testing files
 coverage/
 
-# include data.sql file.
-!/packages/test-data/env/data.sql
-!/packages/test-data/tests/data.sql
+# ignore settings
+.env
 
 # etc
 .DS_Store

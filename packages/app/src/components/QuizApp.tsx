@@ -1,4 +1,4 @@
-/// <reference path="../wp-api.d.ts" />
+/// <reference path="../../../wp-types/index.d.ts" />
 
 import React, { useEffect, useReducer } from 'react';
 import { StartPage } from './StartPage';
@@ -6,7 +6,6 @@ import { QuizData, QuizResult, UserAnswers } from './questions';
 import { Quiz } from './Quiz';
 import { ResultPage } from './ResultPage';
 import { NoQuestionPage } from './pages/NoQuestionPage';
-// import '../wp-api.d.ts';
 
 type AppState =
 	| 'Start'
