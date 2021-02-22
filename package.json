@@ -8,7 +8,7 @@
     "check-type": "tsc --noEmit",
     "dev": "webpack --env development --mode=development --watch",
     "dev:open": "webpack-cli serve --mode=development --env development --open --hot",
-		"exe-sql": "wp-env run cli php wp-content/plugins/learndash-quiz-power-pack/bin/execute-sql.php",
+    "exe-sql": "wp-env run cli php wp-content/plugins/learndash-quiz-power-pack/bin/execute-sql.php",
     "format-php": "wp-env run composer run-script format",
     "gen-sql": "wp-env run cli php wp-content/plugins/learndash-quiz-power-pack/bin/generate-sql.php",
     "install:composer": "wp-env run composer install",
@@ -25,19 +25,20 @@
     "test-unit": "wp-scripts test-unit-js --config test/unit/jest.config.js",
     "test-unit-php": "wp-env run phpunit \"phpunit -c /var/www/html/wp-content/plugins/learndash-quiz-power-pack/phpunit.xml.dist --verbose\"",
     "wp-env": "wp-env",
+		"update:composer": "wp-env run composer update",
     "zip": "node bin/zip-plugin.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sainthkh/learndash-quiz-power-pack.git"
+    "url": "git+https://github.com/wardbase/learndash-quiz-power-pack.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sainthkh/learndash-quiz-power-pack/issues"
+    "url": "https://github.com/wardbase/learndash-quiz-power-pack/issues"
   },
-  "homepage": "https://github.com/sainthkh/learndash-quiz-power-pack#readme",
+  "homepage": "https://github.com/wardbase/learndash-quiz-power-pack#readme",
   "dependencies": {},
   "devDependencies": {
     "@svgr/webpack": "5.5.0",

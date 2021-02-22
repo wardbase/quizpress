@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: LearnDash Quiz Power Pack
- * Plugin URI: https://github.com/sainthkh/wp-react-plugin-boilerplate
+ * Plugin URI: https://github.com/wardbase/learndash-quiz-power-pack
  * Description: The powerup for learndash quiz system.
  * Requires at least: 5.4
  * Requires PHP: 5.6

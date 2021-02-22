@@ -1,7 +1,10 @@
 {
 	"version": "0.1.0",
 	"plugins": {
-
+		"learndash": {
+			"url": "https://api.github.com/repos/wardbase/filebase/git/blobs/f8cb54dd1d055b047393320422768c14d8a67b0a",
+			"key": "WP_REACT_GITHUB_SECRET"
+		}
 	},
 	"themes": {
 	}
