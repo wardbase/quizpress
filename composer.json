@@ -1,14 +1,14 @@
 {
-	"name": "sainthkh/wp-react-plugin-boilerplate",
+	"name": "wardbase/learndash-quiz-power-pack",
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0-or-later",
 	"description": "The good starting point for WordPress and React fans.",
-	"homepage": "https://github.com/sainthkh/wp-react-plugin-boilerplate",
+	"homepage": "https://github.com/wardbase/learndash-quiz-power-pack",
 	"keywords": [
 		"wordpress", "editor", "wp", "react", "javascript"
 	],
 	"support": {
-		"issues": "https://github.com/sainthkh/wp-react-plugin-boilerplate/issues"
+		"issues": "https://github.com/wardbase/learndash-quiz-power-pack/issues"
 	},
 	"config": {
 		"process-timeout": 0,
@@ -21,8 +21,9 @@
 		"wp-coding-standards/wpcs": "^2.2",
 		"sirbrillig/phpcs-variable-analysis": "^2.8",
 		"wp-phpunit/wp-phpunit": "^5.4",
-		"phpunit/phpunit": "^7.5.20",
-		"spatie/phpunit-watcher": "^1.23"
+		"phpunit/phpunit": "^8.5",
+		"spatie/phpunit-watcher": "^1.23",
+		"vlucas/phpdotenv": "5.3.0"
 	},
 	"require": {
 		"composer/installers": "~1.0"

@@ -1,11 +1,12 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-
 import {
 	insertBlock,
 	createNewPost,
-	publishPost,
+	// No definition.
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
 } from '@wordpress/e2e-test-utils';
+
+import { publishPost } from '../util';
 
 // Default example copied from the official Jest site.
 // https://jestjs.io/docs/en/puppeteer
@@ -43,8 +44,19 @@ describe( 'Shortcode', () => {
 		await page.waitForSelector( '.entry-title' );
 
 		// Check if the shortcode is applied correctly.
-		const [ link ] = await page.$x( "//a[contains(., 'Learn React')]" );
+		const [ link ] = await page.$x( "//input[@value='Start Quiz']" );
 
-		expect( link ).not.toBeNull();
+		expect( link ).not.toBeUndefined();
+	} );
+} );
+
+describe( 'Retry', () => {
+	let i = 0;
+	function f() {
+		return i++;
+	}
+
+	it( 'fails until retry 3 times', () => {
+		expect( 2 ).toBe( f() );
 	} );
 } );

@@ -1,5 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BackendFactory } from 'dnd-core';
+import { DndProvider } from 'react-dnd';
+import MultiBackend from 'react-dnd-multi-backend';
+import HTML5toTouch from 'react-dnd-multi-backend/dist/esm/HTML5toTouch';
+
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -18,7 +23,12 @@ const rootId = window.wpReactPlugin ? window.wpReactPlugin.appId : 'root';
 
 ReactDOM.render(
 	<React.StrictMode>
-		<App />
+		<DndProvider
+			backend={ ( MultiBackend as unknown ) as BackendFactory } // This is necessary to avoid collision in types.
+			options={ HTML5toTouch }
+		>
+			<App />
+		</DndProvider>
 	</React.StrictMode>,
 	document.getElementById( rootId )
 );
