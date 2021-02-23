@@ -44,7 +44,7 @@ describe( 'Shortcode', () => {
 		await page.waitForSelector( '.entry-title' );
 
 		// Check if the shortcode is applied correctly.
-		const [ link ] = await page.$x( "//a[contains(., 'Start Quiz')]" );
+		const [ link ] = await page.$x( "//input[@value='Start Quiz']" );
 
 		expect( link ).not.toBeUndefined();
 	} );
