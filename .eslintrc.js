@@ -64,4 +64,9 @@ module.exports = {
 			extends: [ 'plugin:@wordpress/eslint-plugin/test-e2e' ],
 		},
 	],
+	settings: {
+		'import/resolver': {
+			typescript: {}, // this loads <rootdir>/tsconfig.json to eslint
+		},
+	},
 };

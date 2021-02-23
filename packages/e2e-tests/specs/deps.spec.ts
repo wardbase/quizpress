@@ -7,7 +7,7 @@ import {
 
 describe( 'WP Dependencies', () => {
 	describe( 'Plugin', () => {
-		it( 'From official WP Plugin repo', async () => {
+		it( 'LearnDash activated', async () => {
 			visitAdminPage( 'plugins.php' );
 
 			// Wait for load
@@ -15,50 +15,10 @@ describe( 'WP Dependencies', () => {
 
 			// Check if the plugin is installed correctly.
 			const [ name ] = await page.$x(
-				"//strong[contains(., 'Hello Samuel L Jackson')]"
+				"//strong[contains(., 'LearnDash LMS')]"
 			);
 
 			expect( name ).not.toBeUndefined();
-		} );
-
-		it( 'From Github private repo', async () => {
-			visitAdminPage( 'plugins.php' );
-
-			// Wait for load
-			await page.waitForSelector( '.wp-heading-inline' );
-
-			// Check if the plugin is installed correctly.
-			const [ name ] = await page.$x(
-				"//strong[contains(., 'WP React Plugin X')]"
-			);
-
-			expect( name ).not.toBeUndefined();
-		} );
-	} );
-
-	describe( 'Theme', () => {
-		it( 'From official WP Themes repo', async () => {
-			visitAdminPage( 'themes.php' );
-
-			// Wait for load
-			await page.waitForSelector( '.wp-heading-inline' );
-
-			// Check if the plugin is installed correctly.
-			const name = await page.$( '#twentyfourteen-name' );
-
-			expect( name ).not.toBeNull();
-		} );
-
-		it( 'From Github private repo', async () => {
-			visitAdminPage( 'themes.php' );
-
-			// Wait for load
-			await page.waitForSelector( '.wp-heading-inline' );
-
-			// Check if the plugin is installed correctly.
-			const name = await page.$( '#test-x-name' );
-
-			expect( name ).not.toBeNull();
 		} );
 	} );
 } );
