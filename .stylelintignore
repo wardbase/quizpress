@@ -1,4 +1,4 @@
 /vendor
 /build
-*.min.js
+*.min.css
 /wp-deps
