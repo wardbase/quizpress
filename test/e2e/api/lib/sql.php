@@ -16,12 +16,17 @@ function wp_react_execute_sql( $filenames ) {
 	global $wpdb;
 
 	foreach ( $filenames as $filename ) {
-		$wpdb->query(
-			// Reason for ignore:
-			// Executing raw SQL is necessary for test.
-			// And this file is only included in the development version.
-			file_get_contents( SQL_FILE_ROOT . $filename ) // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-		);
+		$raw        = file_get_contents( SQL_FILE_ROOT . $filename );
+		$statements = explode( ';', $raw );
+
+		foreach ( $statements as $sql ) {
+			if ( preg_match( '/\S/', $sql ) ) {
+				// Reason for ignore:
+				// Executing raw SQL is necessary for test.
+				// And this file is only included in the development version.
+				$wpdb->query( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			}
+		}
 	}
 }
 
@@ -41,9 +46,19 @@ function wp_react_generate_sql( $filenames ) {
 
 		foreach ( $statements as $sql ) {
 			if ( preg_match( '/\S/', $sql ) ) {
-				$content .= '-- ' . $sql . "\n";
+				$sql_lines   = explode( "\n", trim( $sql ) );
+				$sql_comment = implode(
+					"\n",
+					array_map(
+						function( $line ) {
+							return '-- ' . $line;
+						},
+						$sql_lines
+					)
+				);
+				$content    .= $sql_comment . "\n";
 
-				preg_match( '/from\s+([^ ]+)/i', $sql, $m );
+				preg_match( '/from\s+([^ \n]+)/i', $sql, $m );
 				$table_name = $m[1];
 
 				// Reason for ignore:
